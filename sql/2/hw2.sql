@@ -92,16 +92,19 @@ CREATE TABLE storehouses_products (
 -- Задание 1
 INSERT INTO catalogs VALUES
 	(DEFAULT, NULL),
+	(0, ''),
 	(0, NULL),
+	(0, ''),
 	(0, NULL);
 -- Условие на уникальность оставить можно только в случае если там одна такая строка!
 -- Но не потому, что не получится добавить несколько строк со значением NULL в поле name
 -- (так как одно неопределённое значение (NULL) не равно другому NULL),
 -- а потому, что не получится обновить несколько строк на значение 'empty', будет дубликация.
 -- Так как у меня строк содержащих NULL 3шт - убрал в SQL коде урока уникальность поля name.
--- А теперь заменим строки с id 4,5,6 c NULL на 'empty'
+-- А теперь заменим строки с id c 4 по 8 c NULL/'' на 'empty'
 SET SQL_SAFE_UPDATES = 0; /* Отключаем защиту от случайных ошибок при массовом обновлении */
 UPDATE catalogs SET	name = 'empty' WHERE name IS NULL;
+UPDATE catalogs SET	name = 'empty' WHERE name = '';
 SET SQL_SAFE_UPDATES = 1; /* Включаем защиту обратно */
 -- SELECT * FROM catalogs; /* Смотрим результат */
 
