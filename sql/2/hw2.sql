@@ -123,6 +123,7 @@ CREATE TABLE media (
     media_owner_id BIGINT UNSIGNED COMMENT 'id пользователя-владельца',
 	user_given_name VARCHAR(255) COMMENT 'Пользовательское имя файла',
     user_given_desc VARCHAR(255) COMMENT 'Пользовательское описание файла',
+	user_metas JSON COMMENT 'Пользовательские ключевые слова пишем в JSON',
     file_id VARCHAR(255) COMMENT 'Тип файла photo/video/audio',
     filename VARCHAR(255) COMMENT 'Относительный путь до файла',
     mime_type VARCHAR(60) COMMENT 'MIME тип данных',
