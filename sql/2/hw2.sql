@@ -103,8 +103,7 @@ INSERT INTO catalogs VALUES
 -- Так как у меня строк содержащих NULL 3шт - убрал в SQL коде урока уникальность поля name.
 -- А теперь заменим строки с id c 4 по 8 c NULL/'' на 'empty'
 SET SQL_SAFE_UPDATES = 0; /* Отключаем защиту от случайных ошибок при массовом обновлении */
-UPDATE catalogs SET	name = 'empty' WHERE name IS NULL;
-UPDATE catalogs SET	name = 'empty' WHERE name = '';
+UPDATE catalogs SET	name = 'empty' WHERE name IS NULL OR name = '';
 SET SQL_SAFE_UPDATES = 1; /* Включаем защиту обратно */
 -- SELECT * FROM catalogs; /* Смотрим результат */
 
