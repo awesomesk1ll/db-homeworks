@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS shop;
 use shop;
 -- То, что было сделано на уроках.
--- Домашнее задание к 4 уроку смотреть в нижней части файла!
+-- Домашнее задание к 5 уроку смотреть в нижней части файла!
 DROP TABLE IF EXISTS catalogs;
 CREATE TABLE catalogs (
 	id SERIAL PRIMARY KEY,
@@ -176,6 +176,6 @@ INSERT INTO flights (`from`, `to`) VALUES
 
 SELECT
 	flights.id,
-    (SELECT name FROM cities WHERE flights.`from` = cities.label) AS `Откуда`,
-    (SELECT name FROM cities WHERE flights.`to` = cities.label) AS `Куда`
+    (SELECT name FROM cities WHERE flights.`from` = cities.label) AS `from`,
+    (SELECT name FROM cities WHERE flights.`to` = cities.label) AS `to`
 FROM flights;
