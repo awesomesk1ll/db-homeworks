@@ -23,19 +23,15 @@ CREATE TABLE products (
 -- с 00:00 до 6:00 — "Доброй ночи".
 DROP FUNCTION IF EXISTS hello;
 DELIMITER //
-CREATE FUNCTION hello()
-RETURNS VARCHAR(128) DETERMINISTIC
+CREATE FUNCTION hello() RETURNS VARCHAR(128) DETERMINISTIC
 BEGIN
-	DECLARE hours TINYINT DEFAULT DATE_FORMAT(NOW(), '%H');
-	IF (hours >= 18) THEN 
-		RETURN 'Добрый вечер';
-	ELSEIF (hours >= 12) THEN
-		RETURN 'Добрый день';
-    ELSEIF (hours >= 6) THEN
-		RETURN 'Доброе утро';
-    ELSE
-		RETURN 'Доброй ночи'; -- крайний вариант, значение часов меньше 6
-    END IF;
+	DECLARE hours TINYINT DEFAULT HOUR(NOW());
+	CASE 
+		WHEN hours>=18 THEN RETURN 'Добрый вечер';
+		WHEN hours>=12 THEN RETURN 'Добрый день';
+		WHEN hours>=6 THEN RETURN 'Доброе утро';
+		WHEN hours>=00 THEN RETURN 'Доброй ночи';
+	END CASE;
 END//
 DELIMITER ;
 
@@ -51,16 +47,14 @@ DROP TRIGGER IF EXISTS check_insert_products;
 DROP TRIGGER IF EXISTS check_update_products;
 
 DELIMITER //
-CREATE TRIGGER check_insert_products BEFORE INSERT ON products
-FOR EACH ROW
+CREATE TRIGGER check_insert_products BEFORE INSERT ON products FOR EACH ROW
 BEGIN
 	IF (NEW.name IS NULL && NEW.description IS NULL) THEN 
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ошибка вставки: поля name и description равны NULL';
     END IF;
 END//
 
-CREATE TRIGGER check_update_products BEFORE UPDATE ON products
-FOR EACH ROW
+CREATE TRIGGER check_update_products BEFORE UPDATE ON products FOR EACH ROW
 BEGIN
 	IF (NEW.name IS NULL && NEW.description IS NULL) THEN 
 		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Ошибка обновления: поля name и description равны NULL';
@@ -104,18 +98,14 @@ SELECT * FROM products; -- Проверяем что запросы выполн
 -- Вызов функции FIBONACCI(10) должен возвращать число 55.
 DROP FUNCTION IF EXISTS FIBONACCI;
 DELIMITER //
-CREATE FUNCTION FIBONACCI(count INT)
-RETURNS BIGINT DETERMINISTIC
+CREATE FUNCTION FIBONACCI(count INT) RETURNS BIGINT DETERMINISTIC
 BEGIN
 	DECLARE m BIGINT DEFAULT 0;
 	DECLARE k BIGINT DEFAULT 1;
 	DECLARE i INT DEFAULT 1;
 	DECLARE tmp BIGINT;
 	WHILE (i<=count) DO
-		SET tmp=m+k;
-		SET m=k;
-		SET k=tmp;
-		SET i=i+1;
+		SET tmp=m+k, m=k, k=tmp, i=i+1;
 	END WHILE;
     RETURN m;
 END//
