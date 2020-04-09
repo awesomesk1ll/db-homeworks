@@ -71,13 +71,13 @@ INSERT INTO products(name, description) VALUES
 	('Gigabyte H310M S2H', NULL),
 	('MSI B250M GAMING PRO', NULL); -- Вставка работает.
     
-SELECT * FROM products; -- Проверяем что последний запрос вставки не прошёл.
+SELECT * FROM products; -- Смотрим, что лежит в таблице.
 
 UPDATE products
 	SET name = NULL, description = 'Материнская плата MSI B250M' -- Пробуем обнулить имя материнской платы, description которой равен NULL.
     WHERE id = 7; -- Всё ок, т.к одно поле вновь будет не NULL.
 
-SELECT * FROM products; -- Проверяем что запросы выполнились как нужно.
+SELECT * FROM products; -- Проверяем, что запрос отработал как задумано.
 
 -- Дальше будут варианты с ошибочными попытками вставки или обновления данных, для проверки их нужно раскомментировать
 
