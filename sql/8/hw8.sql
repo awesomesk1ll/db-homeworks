@@ -30,7 +30,7 @@ BEGIN
 		WHEN hours>=18 THEN RETURN 'Добрый вечер';
 		WHEN hours>=12 THEN RETURN 'Добрый день';
 		WHEN hours>=6 THEN RETURN 'Доброе утро';
-		ELSE RETURN 'Доброе утро';
+		ELSE RETURN 'Доброй ночи';
 	END CASE;
 END//
 DELIMITER ;
